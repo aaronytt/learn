@@ -32,3 +32,6 @@ gradlew.bat
 
 ### VS Code ###
 .vscode/
+/spring-core/build/
+/spring-core/out/
+/spring-core/out/
