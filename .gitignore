@@ -1,5 +1,4 @@
 HELP.md
-/build/
 #!gradle/wrapper/gradle-wrapper.jar
 /gradle/
 gradlew
@@ -20,8 +19,6 @@ gradlew.bat
 *.iws
 *.iml
 *.ipr
-/out/
-/log/
 
 ### NetBeans ###
 /nbproject/private/
@@ -32,6 +29,10 @@ gradlew.bat
 
 ### VS Code ###
 .vscode/
-/spring-core/build/
-/spring-core/out/
-/spring-core/out/
+
+/*/log/
+/*/out/
+/*/build/
+/log/
+/out/
+/build/
