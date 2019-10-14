@@ -1,0 +1,15 @@
+rootProject.name = 'learn'
+include 'rmi-client'
+include 'rmi-server'
+
+include 'base'
+include 'dubbo-all-api'
+include 'dubbo-app'
+include 'model'
+include 'dubbo-order-server'
+include 'dubbo-product-server'
+include 'dubbo-product-server'
+include 'dubbo-support-base'
+include 'spring-core'
+include 'concurrent'
+

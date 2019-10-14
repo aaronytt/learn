@@ -1,0 +1,98 @@
+plugins {
+    id 'org.springframework.boot' version '2.1.8.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.8.RELEASE'
+    id 'java'
+}
+
+group = 'com.aaron'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = 1.8
+
+configurations {
+    developmentOnly
+    runtimeClasspath {
+        extendsFrom developmentOnly
+    }
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+
+    // java编译的时候缺省状态下会因为中文字符而失败
+    [compileJava, compileTestJava, javadoc]*.options*.encoding = 'UTF-8'
+
+    //指定编码格式
+    tasks.withType(JavaCompile) {
+        options.encoding = "UTF-8"
+    }
+
+    // remove default logger
+    all*.exclude group: 'log4j', module: 'log4j'
+    all*.exclude group: 'org.slf4j', module: 'slf4j-log4j12'
+}
+
+repositories {
+    mavenLocal()
+    maven { url "http://maven.aliyun.com/nexus/content/groups/public" }
+    maven { url "https://repo.spring.io/libs-release" }
+    mavenCentral()
+    jcenter()
+}
+//使用com.alibaba.boot:dubbo-spring-boot-starter的配置方式
+dependencies {
+
+    compileOnly(
+            'org.projectlombok:lombok'
+    )
+
+    annotationProcessor(
+            'org.projectlombok:lombok'
+    )
+
+    implementation('org.apache.dubbo:dubbo:2.7.3'){
+        exclude group: 'org.springframework', module: 'spring'
+        exclude group: 'javax.servlet', module: 'servlet-api'
+    }
+
+    implementation(
+            project(":base"),
+            project(":dubbo-all-api"),
+
+            'org.springframework.boot:spring-boot-starter-logging',
+
+//            'org.springframework.boot:spring-boot-starter-data-rest',
+            'org.springframework.boot:spring-boot-starter-web',
+
+            'org.apache.dubbo:dubbo-dependencies-zookeeper:2.7.3',
+            'org.apache.dubbo:dubbo-spring-boot-starter:2.7.3',
+
+            'com.alibaba:fastjson:1.2.61',
+            'io.netty:netty-all:4.1.41.Final',
+            'org.apache.commons:commons-lang3:3.9',
+
+////            'mysql:mysql-connector-java',
+//            'org.springframework.boot:spring-boot-starter-jdbc',
+////            'com.alibaba:druid-spring-boot-starter:1.1.4',
+//            'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.1.0',
+//            'com.github.pagehelper:pagehelper-spring-boot-starter:1.2.12',
+
+            'org.springframework.boot:spring-boot-starter-aop',
+            'javax.annotation:javax.annotation-api:1.3.2',
+            'javax.persistence:javax.persistence-api',
+
+            'io.springfox:springfox-swagger2:2.9.2',
+            'io.springfox:springfox-swagger-ui:2.9.2',
+
+    )
+
+    runtimeOnly(
+//            'mysql:mysql-connector-java',
+            'org.springframework.boot:spring-boot-starter-tomcat',
+//            'org.springframework.boot:spring-boot-starter-undertow',
+    )
+
+    testCompile(
+            'org.springframework.boot:spring-boot-starter-test',
+            "junit:junit:4.12"
+    )
+
+}

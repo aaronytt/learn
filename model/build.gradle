@@ -1,0 +1,48 @@
+plugins {
+    id 'org.springframework.boot' version '2.1.8.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.8.RELEASE'
+    id 'java'
+}
+
+group = 'com.aaron'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+configurations {
+    developmentOnly
+    runtimeClasspath {
+        extendsFrom developmentOnly
+    }
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+
+    // remove default logger
+//    all*.exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+    //    all*.exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+}
+
+repositories {
+    mavenLocal()
+    maven { url "http://maven.aliyun.com/nexus/content/groups/public" }
+    maven { url "https://repo.spring.io/libs-release" }
+    mavenCentral()
+    jcenter()
+}
+
+dependencies {
+
+    compileOnly(
+            'org.projectlombok:lombok'
+    )
+
+    annotationProcessor(
+            'org.projectlombok:lombok'
+    )
+
+    implementation(
+            'javax.persistence:javax.persistence-api',
+    )
+
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}

@@ -1,0 +1,46 @@
+server:
+  port: 8079
+
+logging:
+  config: classpath:logback-spring.xml
+  path: log
+#  level:
+#    org.springframework.boot.autoconfigure: ERROR
+
+spring:
+
+  application:
+    name: dubbo-app
+  main:
+    allow-bean-definition-overriding: true
+  resources:
+    static-locations: 'classpath:/static/'
+    cache:
+      cachecontrol:
+        max-age: 10s
+    #        no-cache: false
+    #        s-max-age: 20
+  mvc:
+    view:
+      prefix: '/resources/templates/'
+      suffix: '.html'
+    static-path-pattern: '/static/**'
+
+dubbo:
+  server: true
+  application:
+    id: dubbo-app
+    name: dubbo-app
+  registry:
+    protocol: zookeeper
+    address: 192.168.1.7:2181
+  protocol:
+    name: dubbo
+#    port: 20890
+  monitor:
+    protocol: registry
+  consumer:
+    check: false
+
+
+
