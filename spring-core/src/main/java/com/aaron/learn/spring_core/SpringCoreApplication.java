@@ -12,11 +12,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  * @Date: 22:40 2019/10/8
  * @Modiflid By:
  */
-@SpringBootApplication(scanBasePackages = {
-        "com.aaron.learn.spring_core.aop",
-        "com.aaron.learn.spring_core.model",
-        "com.aaron.learn.spring_core.dao.*",
-        "com.aaron.learn.spring_core.service"})
+@SpringBootApplication
 @MapperScan("com.aaron.learn.spring_core.dao.mapper")
 //@EnableAspectJAutoProxy
 @EnableTransactionManagement

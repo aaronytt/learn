@@ -4,6 +4,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 <!--    <bean class="java.lang.String" id="name_anno"/>-->
-    <bean id="initDestoryDemo" class="com.aaron.learn.spring_core.test.init_destory.InitDestoryDemo"/>
+    <bean id="initDestoryDemo" name="initDestoryDemo" class="com.aaron.learn.spring_core.test.init_destory.InitDestoryDemo"
+    init-method="init" destroy-method="beanDestory"/>
 
 </beans>
