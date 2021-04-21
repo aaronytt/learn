@@ -13,6 +13,7 @@ include 'dubbo-order-server'
 include 'dubbo-product-server'
 include 'dubbo-product-server'
 include 'dubbo-support-base'
+
 include 'spring-core'
 
 
@@ -21,4 +22,7 @@ include 'bigdata-hive'
 include 'bigdata-sqoop'
 include 'bigdata-hbase'
 include 'spring-cloud-gateway'
+include 'base-designPatterns'
+include 'activemq-productor'
+include 'activemq-consumer'
 

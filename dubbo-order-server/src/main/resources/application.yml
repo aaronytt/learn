@@ -2,11 +2,11 @@ server:
   port: 8083
   compression:
     enabled: true
-  connection-timeout: 3000
 
 logging:
   config: classpath:logback-spring.xml
-  path: log
+  file:
+    path: log
 #  level:
 #    org.springframework.boot.autoconfigure: ERROR
 
