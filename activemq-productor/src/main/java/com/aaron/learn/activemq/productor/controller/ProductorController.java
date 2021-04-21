@@ -27,7 +27,7 @@ public class ProductorController {
     public String queue(final String msg){
         Destination queue = new ActiveMQQueue("productor.queue");
 //        jmsTemplate.convertAndSend(queue, msg);
-        jmsTemplate.convertAndSend(queue,msg);
+        jmsTemplate.convertAndSend(queue, msg);
         return "productor.queue send ok";
     }
 

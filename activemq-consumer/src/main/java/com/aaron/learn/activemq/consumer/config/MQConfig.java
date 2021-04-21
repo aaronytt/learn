@@ -15,17 +15,17 @@ import javax.jms.ConnectionFactory;
 @Configuration
 public class MQConfig {
     @Bean("queueListenerFactory")
-    public JmsListenerContainerFactory<?> queueListenerFactory(ConnectionFactory queueConnectionFactory) {
+    public JmsListenerContainerFactory<?> queueListenerFactory(ConnectionFactory connectionFactory) {
         DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
-        factory.setConnectionFactory(queueConnectionFactory);
+        factory.setConnectionFactory(connectionFactory);
         factory.setPubSubDomain(false);
         return factory;
     }
 
     @Bean("topicListenerFactory")
-    public JmsListenerContainerFactory<?> topicListenerFactory(ConnectionFactory topicConnectionFactory) {
+    public JmsListenerContainerFactory<?> topicListenerFactory(ConnectionFactory connectionFactory) {
         DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
-        factory.setConnectionFactory(topicConnectionFactory);	//设置为发布订阅方式, 默认情况下使用的生产消费者方式
+        factory.setConnectionFactory(connectionFactory);	//设置为发布订阅方式, 默认情况下使用的生产消费者方式
         factory.setPubSubDomain(true);
         return factory;
     }
