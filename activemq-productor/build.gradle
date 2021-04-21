@@ -1,19 +1,46 @@
 plugins {
+    id 'org.springframework.boot' version '2.4.1'
+    id 'io.spring.dependency-management' version '1.0.10.RELEASE'
     id 'java'
 }
 
-group 'com.aaron'
-version '1.0-SNAPSHOT'
+group = 'com.aaron.learn.activemq.productor'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = 1.8
+
+configurations {
+    developmentOnly
+    runtimeClasspath {
+        extendsFrom developmentOnly
+    }
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
 
 repositories {
+    mavenLocal()
+    maven { url "http://maven.aliyun.com/nexus/content/groups/public" }
+    maven { url "https://repo.spring.io/libs-release" }
     mavenCentral()
+    jcenter()
 }
 
 dependencies {
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
-}
 
-test {
-    useJUnitPlatform()
+    compileOnly(
+            'org.projectlombok:lombok'
+    )
+
+    annotationProcessor(
+            'org.projectlombok:lombok'
+    )
+
+    implementation(
+            'org.springframework.boot:spring-boot-starter-activemq',
+            'org.springframework.boot:spring-boot-starter-web',
+            'org.apache.activemq:activemq-pool'
+    )
+
+    testCompile group: 'junit', name: 'junit', version: '4.12'
 }
