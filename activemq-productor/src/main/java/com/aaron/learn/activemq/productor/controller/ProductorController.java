@@ -3,7 +3,8 @@ package com.aaron.learn.activemq.productor.controller;
 import org.apache.activemq.command.ActiveMQQueue;
 import org.apache.activemq.command.ActiveMQTopic;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jms.core.JmsMessagingTemplate;
+import org.springframework.jms.annotation.JmsListener;
+import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.core.MessageCreator;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,14 +22,45 @@ import javax.jms.*;
 public class ProductorController {
 
     @Autowired
-    JmsMessagingTemplate jmsTemplate;
+    JmsTemplate jmsTemplate;
+    @Autowired
+    Response response;
 
     @PostMapping("queue")
     public String queue(final String msg){
         Destination queue = new ActiveMQQueue("productor.queue");
 //        jmsTemplate.convertAndSend(queue, msg);
-        jmsTemplate.convertAndSend(queue, msg);
+        jmsTemplate.send(queue, new MessageCreator() {
+            @Override
+            public Message createMessage(Session session) throws JMSException {
+                Message message = session.createTextMessage(msg);
+                Destination destination = session.createTemporaryQueue();
+                MessageConsumer messageConsumer = session.createConsumer(destination);
+                messageConsumer.setMessageListener(response);
+                message.setJMSReplyTo(destination);
+                System.out.println();
+                return message;
+            }
+        });
         return "productor.queue send ok";
+    }
+
+    @PostMapping("reply")
+    public String reply(final String msg){
+        Destination queue = new ActiveMQQueue("productor.queue.reply");
+//        jmsTemplate.convertAndSend(queue, msg);
+        jmsTemplate.send(queue, session -> {
+            Message message = session.createTextMessage(msg);
+            Destination destination = session.createTemporaryQueue();
+            MessageConsumer messageConsumer = session.createConsumer(destination);
+            messageConsumer.setMessageListener(response);
+            message.setJMSReplyTo(destination);
+
+            message.setJMSCorrelationID(System.currentTimeMillis()+ "");
+
+            return message;
+        });
+        return "productor.queue.reply send ok";
     }
 
     @PostMapping("topic")
@@ -36,6 +68,11 @@ public class ProductorController {
         Destination topic = new ActiveMQTopic("productor.topic");
         jmsTemplate.convertAndSend(topic, msg);
         return "productor.topic send ok";
+    }
+
+    @JmsListener(destination = "productor.topic1")
+    public void receiveTopicMsg1(String text) {
+        System.out.println("receiveTopicMsg1:" + text);
     }
 
 }
