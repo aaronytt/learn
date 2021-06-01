@@ -15,6 +15,6 @@ msg=我是来测试一下topic
 POST http://localhost:8080/procductor/reply
 Content-Type: application/x-www-form-urlencoded
 
-msg=我是来测试一下queue
+msg=我是来测试一下reply
 
 ###

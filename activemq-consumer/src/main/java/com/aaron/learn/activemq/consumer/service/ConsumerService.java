@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import javax.jms.JMSException;
 import javax.jms.Message;
-import javax.jms.Session;
 import javax.jms.TextMessage;
 
 /**
@@ -39,14 +38,14 @@ public class ConsumerService {
     }
 
     @JmsListener(destination = "productor.topic", containerFactory = "topicListenerFactory")
-    @SendTo("productor.topic1")
+    @SendTo({"productor.topic.reply"})
     public String receiveTopicMsg1(String text) {
         System.out.println("receiveTopicMsg1:" + text);
         return "receiveTopicMsg1:" + text;
     }
 
     @JmsListener(destination = "productor.topic", containerFactory = "topicListenerFactory")
-    @SendTo("productor.topic1")
+    @SendTo("productor.topic.reply")
     public String receiveTopicMsg2(String text) {
         System.out.println("receiveTopicMsg2:" + text);
         return "receiveTopicMsg2:" + text;

@@ -5,7 +5,6 @@ import org.apache.activemq.command.ActiveMQTopic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.jms.core.JmsTemplate;
-import org.springframework.jms.core.MessageCreator;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -30,19 +29,23 @@ public class ProductorController {
     public String queue(final String msg){
         Destination queue = new ActiveMQQueue("productor.queue");
 //        jmsTemplate.convertAndSend(queue, msg);
-        jmsTemplate.send(queue, new MessageCreator() {
-            @Override
-            public Message createMessage(Session session) throws JMSException {
-                Message message = session.createTextMessage(msg);
-                Destination destination = session.createTemporaryQueue();
-                MessageConsumer messageConsumer = session.createConsumer(destination);
-                messageConsumer.setMessageListener(response);
-                message.setJMSReplyTo(destination);
-                System.out.println();
-                return message;
-            }
+        jmsTemplate.send(queue, session -> {
+            Message message = session.createTextMessage(msg);
+            Destination destination = session.createTemporaryQueue();
+            MessageConsumer messageConsumer = session.createConsumer(destination);
+            messageConsumer.setMessageListener(response);
+            message.setJMSReplyTo(destination);
+            System.out.println();
+            return message;
         });
         return "productor.queue send ok";
+    }
+
+    @PostMapping("topic")
+    public String topic(final String msg){
+        Destination topic = new ActiveMQTopic("productor.topic");
+        jmsTemplate.convertAndSend(topic, msg);
+        return "productor.topic send ok";
     }
 
     @PostMapping("reply")
@@ -63,16 +66,9 @@ public class ProductorController {
         return "productor.queue.reply send ok";
     }
 
-    @PostMapping("topic")
-    public String topic(final String msg){
-        Destination topic = new ActiveMQTopic("productor.topic");
-        jmsTemplate.convertAndSend(topic, msg);
-        return "productor.topic send ok";
-    }
-
-    @JmsListener(destination = "productor.topic1")
-    public void receiveTopicMsg1(String text) {
-        System.out.println("receiveTopicMsg1:" + text);
+    @JmsListener(destination = "productor.topic.reply", containerFactory = "topicListenerFactory")
+    public void receiveTopicMsg(String text) {
+        System.out.println("receiveTopicMsg:" + text);
     }
 
 }
