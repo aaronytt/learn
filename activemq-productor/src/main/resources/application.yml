@@ -1,7 +1,0 @@
-spring:
-  application:
-    name: activemq-productor
-  activemq:
-    broker-url: 'tcp://127.0.0.1:61616'
-    user: aaron
-    password: 123456

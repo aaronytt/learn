@@ -1,5 +1,4 @@
 rootProject.name = 'learn'
 
-include 'activemq-productor'
-include 'activemq-consumer'
+include 'rabbitmq-demo'
 
